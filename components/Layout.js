@@ -1,12 +1,11 @@
-// components/Layout.js
 import React from "react";
 import Header from "./Header";
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div>
       <Header />
-      <main className="container px-4 py-8 mx-auto">{children}</main>
+      <main className="container mx-auto mt-8">{children}</main>
     </div>
   );
 };

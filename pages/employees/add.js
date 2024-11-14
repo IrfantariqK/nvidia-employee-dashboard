@@ -1,15 +1,14 @@
 //this is api add employees 
 import React from "react";
-import Layout from "../../components/Layout";
-import AddEmployeeForm from "../../components/AddEmployeeForm";
+import { ApolloProvider } from "@apollo/client";
+import client from "../lib/apolloClient";
 
-const AddEmployee = () => {
+function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
-      <h1 className="mb-6 text-3xl font-bold">Add New Employee</h1>
-      <AddEmployeeForm />
-    </Layout>
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
   );
-};
+}
 
-export default AddEmployee;
+export default MyApp;

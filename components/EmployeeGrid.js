@@ -16,15 +16,25 @@ const GET_EMPLOYEES = gql`
   }
 `;
 
-const EmployeeGrid = () => {
+export default function EmployeeGrid() {
   const [viewMode, setViewMode] = useState("grid");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const { loading, error, data } = useQuery(GET_EMPLOYEES, {
+  const { loading, error, data, refetch } = useQuery(GET_EMPLOYEES, {
     variables: { page: 1, limit: 10, sortBy: "name" },
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const handleEmployeeUpdate = (updatedEmployee) => {
+    refetch();
+    setSelectedEmployee(updatedEmployee);
+  };
+
+  const handleEmployeeDelete = (deletedEmployeeId) => {
+    refetch();
+    setSelectedEmployee(null);
+  };
 
   return (
     <div>
@@ -71,7 +81,7 @@ const EmployeeGrid = () => {
                 <td className="px-4 py-2 border">
                   <button
                     onClick={() => setSelectedEmployee(employee)}
-                    className="px-2 py-1 text-white bg-blue-500 rounded"
+                    className="px-2 py-1 mr-2 text-white bg-blue-500 rounded"
                   >
                     View
                   </button>
@@ -95,10 +105,10 @@ const EmployeeGrid = () => {
         <EmployeeDetail
           employee={selectedEmployee}
           onClose={() => setSelectedEmployee(null)}
+          onEmployeeUpdate={handleEmployeeUpdate}
+          onEmployeeDelete={handleEmployeeDelete}
         />
       )}
     </div>
   );
-};
-
-export default EmployeeGrid;
+}
